@@ -1,13 +1,17 @@
 
 given_inputs = ["d(q0,a)={q0,q1},d(q1,b)={q1,q2},d(q2,a)={q2}",
-          "d(q0,a)={q0,q1},d(q1,b)={q1,q2},d(q2,a)={q2},d(q0,lambda)={q2}"]
+                "d(q0,a)={q0,q1},d(q1,b)={q1,q2},d(q2,a)={q2},d(q0,lambda)={q2}"]
 
 states = []
 inputs = []
 
+
 demo_matrix = [["q0,q1", "q0,q1", "q0,q1"],
                ["q0,q1", "q0,q1", "q0,q1"],
                ["q0,q1", "q0,q1", "q0,q1"]]
+
+my_map = {}
+symbol_positions = []
 
 # Prints all inputs in the format of d()={}
 def print_given_input(str):
@@ -21,6 +25,11 @@ def print_given_input(str):
             print(" = ", end="")
         else:
             print(str[index], end="")
+            
+def print_map():
+    global my_map
+    for key, value in my_map.items():
+        print("Input: " + key, "\tOutput: " + value)
 
 # Prints a matrix
 # States will represent the rows
@@ -46,11 +55,56 @@ def print_matrix(states, inputs, matrix):
         
         row = row + 1
         
-def check_inputs_for_states():
-    # checks to see if other states should be included
-    pass
-        
-            
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                        MAP SECTION               
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""
+Setup program and symbol positions
+Checks strings for () and {}  
+If pair is not found, ERROR will occur
+"""
+def find_parenthesis_and_curly_braces(str):
+    global symbol_positions
+    for index in range(0, len(str)):
+        if str[index] == "(" or str[index] == ")" or str[index] == "{" or str[index] == "}":
+            symbol_positions.append(index)
+    if len(symbol_positions) % 2 != 0:
+        print("ERROR")
+
+"""
+Gets string information between two positions
+Returns the information in single string
+"""        
+def get_between_symbols(str, p_start, p_end):
+    temp_str = ""
+    for i in range(p_start+1, p_end):
+        if str[i] != "," and str[i+1] == "l":
+            temp_str = temp_str + "lambda"
+            i = i + 6
+        else:
+            temp_str = temp_str + str[i]
+    return temp_str
+
+
+"""
+Setup map 
+- to have all keys be the left hand side of an "="
+- to have all values be the right hand side of the corresponding "=" 
+"""   
+def set_up_map(str, map, positions):
+    gathered_strings = []
+    
+    # Gathers all strings
+    for i in range(0,len(positions), 2):
+        gathered_strings.append(get_between_symbols(str, positions[i], positions[i+1]))
+    
+    # Setup for map using all gathered strings
+    for i in range(0,len(gathered_strings),2):
+        map.update({gathered_strings[i]:gathered_strings[i+1]})
+    
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                   STATES and INPUTS SECTION               
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # Adds states from a string and stores them in the states list  
 # Inputs cannot be q or l as they will cause issues when gathering states 
 def gather_states(str): 
@@ -96,9 +150,18 @@ def gather_inputs(str):
     
     print("\n~ Inputs gathered: ~")
     print(inputs)
-            
-print_given_input(given_inputs[1])
-gather_states(given_inputs[1])
-gather_inputs(given_inputs[1])
-print_matrix(states, inputs, demo_matrix)
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                            DRIVER            
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+if __name__ == '__main__':
+    find_parenthesis_and_curly_braces(given_inputs[1])
+    set_up_map(given_inputs[1], my_map, symbol_positions)
+    print_map()
+
+# print_given_input(given_inputs[1])
+# gather_states(given_inputs[1])
+# gather_inputs(given_inputs[1])
+# print_matrix(states, inputs, demo_matrix)
