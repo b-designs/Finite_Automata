@@ -1,6 +1,6 @@
 
 given_inputs = ["d(q0,a)={q0,q1},d(q1,b)={q1,q2},d(q2,a)={q2}",
-          "d(q0,a)={q0,q1},d(q1,b)={q1,q2},d(q2,a)={q2},d(q0,lambda)"]
+          "d(q0,a)={q0,q1},d(q1,b)={q1,q2},d(q2,a)={q2},d(q0,lambda)={q2}"]
 
 states = []
 inputs = []
@@ -13,8 +13,12 @@ demo_matrix = [["q0,q1", "q0,q1", "q0,q1"],
 def print_given_input(str):
     print("~ Given Inputs ~")
     for index in range(0, len(str)):
-        if str[index-1] == "}" and str[index] == ",":
-            print(str[index])
+        if str[index] == "," and str[index-1] == "}":
+            pass
+        elif str[index] == "}":
+            print("}")
+        elif str[index] == "=":
+            print(" = ", end="")
         else:
             print(str[index], end="")
 
@@ -22,7 +26,8 @@ def print_given_input(str):
 # States will represent the rows
 # Inputs will represent the states
 def print_matrix(states, inputs, matrix):
-    print("\n- - - - - - MATRIX - - - - - -")
+    print("\n\t     MATRIX")
+    print("- - - - - - - - - - - - - - - - -")
     
     # Prints the column labels
     for element in inputs:
@@ -40,6 +45,10 @@ def print_matrix(states, inputs, matrix):
         print("")
         
         row = row + 1
+        
+def check_inputs_for_states():
+    # checks to see if other states should be included
+    pass
         
             
 # Adds states from a string and stores them in the states list  
@@ -60,7 +69,7 @@ def gather_states(str):
     states = sorted(states)
             
     # Prints the states gathered
-    print("\n\n~ States gathered: ~")
+    print("\n~ States gathered: ~")
     print(states)
     
 def gather_inputs(str):
