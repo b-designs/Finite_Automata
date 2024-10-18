@@ -28,8 +28,12 @@ def print_given_input(str):
             
 def print_map():
     global my_map
+    print("\n~ CURRENT MAP ~")
     for key, value in my_map.items():
-        print("Input: " + key, "\tOutput: " + value)
+        if "lambda" in key:
+            print("Input: " + key, "\tOutput: " + value)
+        else:
+            print("Input: " + key, "\t\tOutput: " + value)
 
 # Prints a matrix
 # States will represent the rows
@@ -105,27 +109,33 @@ def set_up_map(str, map, positions):
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                    STATES and INPUTS SECTION               
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-# Adds states from a string and stores them in the states list  
-# Inputs cannot be q or l as they will cause issues when gathering states 
-def gather_states(str): 
-    global states
+"""
+Adds states from a string and stores them in the states list  
+Inputs cannot be q or l as they will cause issues when gathering states 
+"""
+def gather_states(map, states):
     
-    for index in range(0, len(str)):
-        if str[index-1] == "q":
-            states.append("q" + str[index])
-        if str[index] == "t":
-            states.append("trap")
-    
-    # Removes an repeats
-    states = set(states)
-    
-    # Sorts the states
-    states = sorted(states)
-            
+    for entry in map.keys():    # Iterates through all keys in state
+        for i in range(0,len(entry)):   # Iterates through state string
+            if entry[i] == "q" and entry[i+1] == "0":
+                if "q0" not in states:
+                    states.append("q0")
+                if map.get("q0") and map.get("q0") not in states: # Avoids None value
+                    states.append(map.get("q0"))    # Add initial state output to states 
+                elif entry[i] == "q" and entry[i:i+2] not in states:  # Get the state properly
+                    states.append(entry[i:i+2])  # Append the full state like "q1", "q2"
+        
+        map_value = map.get(entry)
+        if map_value and map_value not in states:  # Check if map value is valid and unique
+            states.append(map_value)                    
+                             
     # Prints the states gathered
     print("\n~ States gathered: ~")
     print(states)
     
+"""
+Gather states and inputs
+"""
 def gather_inputs(str):
     global inputs
     
@@ -150,15 +160,42 @@ def gather_inputs(str):
     
     print("\n~ Inputs gathered: ~")
     print(inputs)
+    
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+                            MATRIX            
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
                             DRIVER            
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+def menu():
+    count = 0
+    for string in given_inputs:
+        if count > 0:
+            print("")
+        print("\n~ String Choice " + str(count) + " ~")
+        for i in range(0, len(string)):
+            if string[i] == "," and string[i-1] == "}":
+                print("")
+            else:
+                print(string[i], end="")
+        count = count + 1
+        
+    print("\n\nChoose a string 0-1\nChoice is ...", end=" ")
+    x = int(input())
+    print("\n.\n.\n.\n.")
+    return x
+
 if __name__ == '__main__':
-    find_parenthesis_and_curly_braces(given_inputs[1])
-    set_up_map(given_inputs[1], my_map, symbol_positions)
+    choice = menu()
+    find_parenthesis_and_curly_braces(given_inputs[choice])
+    set_up_map(given_inputs[choice], my_map, symbol_positions)
+    gather_states(my_map, states)
+    gather_inputs(given_inputs[choice])
     print_map()
 
 # print_given_input(given_inputs[1])
