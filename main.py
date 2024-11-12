@@ -15,12 +15,12 @@ def menu():
         try:
             choice = int(choice)
             if choice == 1:
-                print("\t\tPROGRAM: NFA to DFA")
+                print("\n\t\tPROGRAM: NFA to DFA")
                 print("-------------------------------------------------")
                 nfa_to_dfa.driver()
                 break
             elif choice == 2:
-                print("\tProgram: Simplify Context-Free Grammars")
+                print("\n\tProgram: Simplify Context-Free Grammars")
                 print("---------------------------------------------------------")
                 simplify_CFG.driver()
                 break
