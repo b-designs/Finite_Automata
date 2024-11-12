@@ -5,7 +5,6 @@ given_inputs = ["d(q0,a)={q0,q1},d(q1,b)={q1,q2},d(q2,a)={q2}",
 states = []
 inputs = []
 
-
 demo_matrix = [["q0,q1", "q0,q1", "q0,q1"],
                ["q0,q1", "q0,q1", "q0,q1"],
                ["q0,q1", "q0,q1", "q0,q1"]]
@@ -190,15 +189,10 @@ def menu():
     print("\n.\n.\n.\n.")
     return x
 
-if __name__ == '__main__':
+def driver():
     choice = menu()
     find_parenthesis_and_curly_braces(given_inputs[choice])
     set_up_map(given_inputs[choice], my_map, symbol_positions)
     gather_states(my_map, states)
     gather_inputs(given_inputs[choice])
     print_map()
-
-# print_given_input(given_inputs[1])
-# gather_states(given_inputs[1])
-# gather_inputs(given_inputs[1])
-# print_matrix(states, inputs, demo_matrix)
