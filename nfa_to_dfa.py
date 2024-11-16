@@ -1,3 +1,10 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+DESCRIPTION: NFA TO DFA
+
+Program needs to be updated as it is not finished.
+Missing Functions need to be added as well 
+as update the commenting due to inconsistencies in commenting.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 given_inputs = ["d(q0,a)={q0,q1},d(q1,b)={q1,q2},d(q2,a)={q2}",
                 "d(q0,a)={q0,q1},d(q1,b)={q1,q2},d(q2,a)={q2},d(q0,lambda)={q2}"]

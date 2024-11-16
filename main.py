@@ -1,4 +1,12 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+DESCRIPTION
 
+This program is the initial starting file to use 
+the other programs. There are two different program choices.
+
+Program 1: Non Deterministic Finite Automata to Deterministic Finite Automata
+Program 2: Simply Context Free Grammars
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 # Main menu for program
 
 import nfa_to_dfa
